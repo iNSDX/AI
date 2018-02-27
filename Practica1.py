@@ -59,6 +59,3 @@ def hV(d):
     print(' '.join(cs))
 
 hV(d)
-
-
-#Ejercicio 4

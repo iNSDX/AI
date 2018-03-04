@@ -1,5 +1,6 @@
-#Ejercicio 1
-def cuadrados(l):
+#Exercise 1
+
+def squares(l):
     l2=[]
 
     for a in l:
@@ -7,29 +8,33 @@ def cuadrados(l):
 
     return l2
 
-print (cuadrados([2,-1.2,3e2,1j]))
-print (cuadrados(i for i in range(10)))
+print (squares([2,-1.2,3e2,1j]))
+print (squares(i for i in range(10)))
 
-def cuadrados2(l):
+def squares2(l):
     return [i**2 for i in l]
 
-cuadrados2(range(10))
+squares2(range(10))
 
 
-#Ejercicio 2
-def divisores(n):
+#Exercise 2
+
+def divisors(n):
     return [j for j in range(1,n) if n%j==0]
-def es_perfecto(n):
-    return sum(divisores(n))==n
-def escribe_perfectos(m,n):
+
+def is_perfect(n):
+    return sum(divisors(n))==n
+
+def write_perfect(m,n):
     for i in range(m,n+1):
-        if es_perfecto(i):
-            print ("El numero",i,"es perfecto y sus divisores son",divisores)
+        if is_perfect(i):
+            print ("El numero",i,"es perfecto y sus divisores son",divisors)
 
-escribe_perfectos(1,1000)
+write_perfect(1,1000)
 
 
-#Ejercicio 3
+#Exercise 3
+
 d={'a':5,'b':10,'c':12,'d':11,'e':15,'f':20,'g':15,'h':9,'i':7,'j':2}
 def hh(d):
     for x,y in d.items():
@@ -59,3 +64,61 @@ def hV(d):
     print(' '.join(cs))
 
 hV(d)
+
+
+#Exercise 4
+
+def depth(L):
+    if isinstance(L,list):
+        return 1 + max(depth(item) for item in L)
+    else:
+        return 0
+
+print(depth(3))
+print(depth([7,5,9,5,6]))
+print(depth([1,[1,[1,[1,1],1],[1,1]],1]))
+
+
+#Exercise 5
+
+import math
+class Projectile:
+    def __init__(self,distance,height,vSpeed,hSpeed):
+        self.distance=distance
+        self.height=height
+        self.vSpeed=vSpeed
+        self.hSpeed=hSpeed
+
+    def get_pos_x(self):
+        return self.distance
+    
+    def get_pos_y(self):
+        return self.height
+    
+    def refresh_position(self,t):
+        currentvSpeed=self.vSpeed
+        self.distance=currentvSpeed*t
+        self.vSpeed-=9.8*t
+        self.height+=((self.vSpeed+currentvSpeed)/2)*t
+        
+
+def land(height,speed,angle,interval):
+    projectile=Projectile(0,height,speed*math.sin(math.radians(angle)),speed*math.cos(math.radians(angle)))
+    nIntervals=0
+    maxHeight=height
+
+    while projectile.get_pos_y()>0:
+        print("Projectile at ({},{})".format(abs(projectile.get_pos_x()),projectile.get_pos_y()))
+        projectile.refresh_position(interval)
+        nIntervals+=1
+        if(projectile.get_pos_y()>maxHeight):
+            maxHeight=projectile.get_pos_y()
+
+    print("After {} intervals of {} seconds ({} seconds) the projectile has landed".format(nIntervals,interval,nIntervals*interval))
+    print("It moved",abs(projectile.get_pos_x()),"metres")
+    print("Maximum height achieved",maxHeight,"metres")
+
+land(30,1,20,0.1)
+
+
+
